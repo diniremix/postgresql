@@ -54,6 +54,10 @@ RUN mv -v /usr/share/postgresql/$PG_MAJOR/postgresql.conf.sample /usr/share/post
 	&& ln -sv ../postgresql.conf.sample /usr/share/postgresql/$PG_MAJOR/ \
 	&& sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/share/postgresql/postgresql.conf.sample
 
+RUN apt-get update \
+	&& apt-get install -y postgresql-$PG_MAJOR-postgis-2.1 \
+	&& apt-get install -y nano curl \
+
 RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgresql && chmod g+s /var/run/postgresql
 
 ENV PATH /usr/lib/postgresql/$PG_MAJOR/bin:$PATH
